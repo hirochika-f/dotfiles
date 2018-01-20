@@ -13,11 +13,18 @@ set softtabstop=0
 set noswapfile
 au! CursorHold
 
-:py3(sys.path.append('/home/hirochika/.pyenv/versions/3.5.2/lib/python3.5/site-packages'))
+inoremap { {}<LEFT>
+inoremap [ []<LEFT>
+inoremap ( ()<LEFT>
+inoremap " ""<LEFT>
+inoremap ' ''<LEFT>
+vnoremap { "zdi^V{<C-R>z}<ESC>
+vnoremap [ "zdi^V[<C-R>z]<ESC>
+vnoremap ( "zdi^V(<C-R>z)<ESC>
+vnoremap " "zdi^V"<C-R>z^V"<ESC>
+vnoremap ' "zdi'<C-R>z'<ESC>
 
 autocmd FileType python setlocal completeopt-=preview
-
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
 let g:molokai_original = 1
 syntax on
@@ -59,6 +66,7 @@ call dein#begin(expand('~/.vim/dein'))
 call dein#add('Shougo/dein.vim')
 call dein#add('Shougo/vimproc.vim', {'build': 'make'})
 call dein#add('Shougo/neocomplete.vim')
+call dein#add('Shougo/neosnippet-snippets')
 call dein#add('Shougo/neomru.vim')
 call dein#add('Shougo/neosnippet')
 
@@ -90,32 +98,20 @@ endif
  " Plugin key-mappings.
  inoremap <expr><C-g>     neocomplete#undo_completion()
  inoremap <expr><C-l>     neocomplete#complete_common_string()
+ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
- " Recommended key-mappings.
- " <CR>: close popup and save indent.
- inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
- function! s:my_cr_function()
-    return neocomplete#close_popup() . "\<CR>"
-     " For no inserting <CR> key.
-       " return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-       endfunction
-
-       " <TAB>: completion.
-       inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-       " <C-h>, <BS>: close popup and delete backword char.
-       inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-       inoremap <expr><CR>  pumvisible() ? "\<C-n>" . neocomplete#close_popup() : "\<CR>"
-       " inoremap <expr><C-y>  neocomplete#close_popup()
-       " inoremap <expr><C-e>  neocomplete#cancel_popup()
-
-       " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+ let g:neosnippet#snippets_directory='~/.vim/my_snippet'
+ " SuperTab like snippets behavior.
+ imap  <expr><TAB>
+    \ pumvisible() ? "\<C-n>" :
+    \ neosnippet#expandable_or_jumpable() ?
+    \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+               
+ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+    \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+                    
+ if has('conceal')
+     set conceallevel=2 concealcursor=i
+ endif
 
 autocmd FileType python setlocal omnifunc=jedi#completions
-" let g:jedi#completions_enabled = 0
-" let g:jedi#auto_vim_configuration = 0
-
-" if !exists('g:neocomplete#force_omni_input_patterns')
-"     let g:neocomplete#force_omni_input_patterns = {}
-" endif
-
-" let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
