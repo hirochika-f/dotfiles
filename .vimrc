@@ -30,6 +30,7 @@ vnoremap [ "zdi^V[<C-R>z]<ESC>
 vnoremap ( "zdi^V(<C-R>z)<ESC>
 vnoremap " "zdi^V"<C-R>z^V"<ESC>
 vnoremap ' "zdi'<C-R>z'<ESC>
+nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
 autocmd FileType python setlocal completeopt-=preview
 
