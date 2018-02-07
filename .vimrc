@@ -74,9 +74,9 @@ call dein#begin(expand('~/.vim/dein'))
 call dein#add('Shougo/dein.vim')
 call dein#add('Shougo/vimproc.vim', {'build': 'make'})
 call dein#add('Shougo/neocomplete.vim')
+call dein#add('Shougo/neosnippet.vim')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('Shougo/neomru.vim')
-call dein#add('Shougo/neosnippet')
 call dein#add('scrooloose/nerdcommenter')
 
 
@@ -122,5 +122,23 @@ endif
  if has('conceal')
      set conceallevel=2 concealcursor=i
  endif
+
+" Plugin key-mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+ 
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+    \ "\<Plug>(neosnippet_expand_or_jump)"
+    \: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+    \ "\<Plug>(neosnippet_expand_or_jump)"
+    \: "\<TAB>"
+ 
+ " For snippet_complete marker.
+if has('conceal')
+    set conceallevel=2 concealcursor=i
+endif
 
 autocmd FileType python setlocal omnifunc=jedi#completions
