@@ -1,3 +1,4 @@
+let mapleader=","
 set number
 set hlsearch
 set virtualedit=onemore
@@ -11,7 +12,9 @@ set expandtab
 set shiftwidth=4
 set softtabstop=0
 set noswapfile
+set backspace=2
 au! CursorHold
+filetype plugin on
 
 imap <C-l> <Right>
 imap <C-k> <Up>
@@ -27,7 +30,6 @@ vnoremap [ "zdi^V[<C-R>z]<ESC>
 vnoremap ( "zdi^V(<C-R>z)<ESC>
 vnoremap " "zdi^V"<C-R>z^V"<ESC>
 vnoremap ' "zdi'<C-R>z'<ESC>
-
 
 autocmd FileType python setlocal completeopt-=preview
 
@@ -74,6 +76,7 @@ call dein#add('Shougo/neocomplete.vim')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('Shougo/neomru.vim')
 call dein#add('Shougo/neosnippet')
+call dein#add('scrooloose/nerdcommenter')
 
 
 " Required:
