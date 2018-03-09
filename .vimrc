@@ -1,5 +1,5 @@
 let mapleader=","
-set number
+set relativenumber
 set hlsearch
 set virtualedit=onemore
 set cursorline
@@ -15,6 +15,8 @@ set noswapfile
 set backspace=2
 au! CursorHold
 filetype plugin on
+""colorscheme molokai
+highlight Normal ctermbg=none
 
 imap <C-l> <Right>
 imap <C-k> <Up>
