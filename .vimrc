@@ -15,6 +15,7 @@ set noswapfile
 set backspace=2
 au! CursorHold
 filetype plugin on
+filetype on
 ""colorscheme molokai
 highlight Normal ctermbg=none
 
@@ -36,9 +37,15 @@ nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
 autocmd FileType python setlocal completeopt-=preview
 
-let g:molokai_original = 1
-syntax on
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
+autocmd ColorScheme * highlight Normal ctermbg=None
+autocmd ColorScheme * highlight Comment ctermfg=110 guifg=#00FF00
+autocmd ColorScheme * highlight String ctermfg=227 guifg=#00FF00
+syntax on
+""set g:molokai_original = 1
+colorscheme molokai
+set t_Co=256
 
 "dein Scripts-----------------------------
 if &compatible
