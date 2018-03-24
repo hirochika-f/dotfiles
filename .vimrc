@@ -41,6 +41,7 @@ set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
 autocmd ColorScheme * highlight Normal ctermbg=None
 autocmd ColorScheme * highlight Comment ctermfg=110 guifg=#00FF00
+autocmd ColorScheme * highlight Identifier ctermfg=208 guifg=#00FF00
 autocmd ColorScheme * highlight String ctermfg=227 guifg=#00FF00
 syntax on
 ""set g:molokai_original = 1
@@ -124,3 +125,41 @@ endif
  endif
 
 autocmd FileType python setlocal omnifunc=jedi#completions
+
+function! s:get_syn_id(transparent)
+    let synid = synID(line("."), col("."), 1)
+    if a:transparent
+        return synIDtrans(synid)
+    else
+        return synid
+    endif
+endfunction
+function! s:get_syn_attr(synid)
+    let name = synIDattr(a:synid, "name")
+    let ctermfg = synIDattr(a:synid, "fg", "cterm")
+    let ctermbg = synIDattr(a:synid, "bg", "cterm")
+    let guifg = synIDattr(a:synid, "fg", "gui")
+    let guibg = synIDattr(a:synid, "bg", "gui")
+    return {
+        \ "name": name,
+        \ "ctermfg": ctermfg,
+        \ "ctermbg": ctermbg,
+        \ "guifg": guifg,
+        \ "guibg": guibg}
+endfunction
+function! s:get_syn_info()
+    let baseSyn = s:get_syn_attr(s:get_syn_id(0))
+    echo "name: " . baseSyn.name .
+        \ " ctermfg: " . baseSyn.ctermfg .
+        \ " ctermbg: " . baseSyn.ctermbg .
+        \ " guifg: " . baseSyn.guifg .
+        \ " guibg: " . baseSyn.guibg
+    let linkedSyn = s:get_syn_attr(s:get_syn_id(1))
+    echo "link to"
+    echo "name: " . linkedSyn.name .
+        \ " ctermfg: " . linkedSyn.ctermfg .
+        \ " ctermbg: " . linkedSyn.ctermbg .
+        \ " guifg: " . linkedSyn.guifg .
+        \ " guibg: " . linkedSyn.guibg
+endfunction
+command! SyntaxInfo call s:get_syn_info()
