@@ -1,5 +1,6 @@
 let mapleader=","
 set relativenumber
+set number
 set hlsearch
 set virtualedit=onemore
 set cursorline
@@ -23,16 +24,6 @@ imap <C-l> <Right>
 imap <C-k> <Up>
 imap <C-j> <Down>
 imap <C-h> <Left>
-inoremap { {}<LEFT>
-inoremap [ []<LEFT>
-inoremap ( ()<LEFT>
-inoremap " ""<LEFT>
-inoremap ' ''<LEFT>
-vnoremap { "zdi^V{<C-R>z}<ESC>
-vnoremap [ "zdi^V[<C-R>z]<ESC>
-vnoremap ( "zdi^V(<C-R>z)<ESC>
-vnoremap " "zdi^V"<C-R>z^V"<ESC>
-vnoremap ' "zdi'<C-R>z'<ESC>
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
 autocmd FileType python setlocal completeopt-=preview
@@ -89,6 +80,8 @@ call dein#add('Shougo/neosnippet-snippets')
 call dein#add('Shougo/neomru.vim')
 call dein#add('scrooloose/nerdcommenter')
 call dein#add('tpope/vim-surround')
+call dein#add('simeji/winresizer')
+call dein#add('cohama/lexima.vim')
 
 
 " Required:
