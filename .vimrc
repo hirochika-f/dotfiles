@@ -14,6 +14,7 @@ set shiftwidth=4
 set softtabstop=0
 set noswapfile
 set backspace=2
+set statusline=2
 au! CursorHold
 filetype plugin on
 filetype on
@@ -82,9 +83,18 @@ call dein#add('scrooloose/nerdcommenter')
 call dein#add('tpope/vim-surround')
 call dein#add('simeji/winresizer')
 call dein#add('cohama/lexima.vim')
+call dein#add('vim-airline/vim-airline')
+call dein#add('vim-airline/vim-airline-themes')
 
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline_theme='papercolor'
+let g:airline_powerline_fonts = 1
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_left_sep = ' > '
+let g:airline_right_sep = ' < '
 
-" Required:
 filetype plugin indent on
 syntax enable
 
