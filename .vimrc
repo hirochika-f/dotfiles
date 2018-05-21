@@ -85,6 +85,7 @@ call dein#add('simeji/winresizer')
 call dein#add('cohama/lexima.vim')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
+call dein#add('w0rp/ale')
 
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_theme='papercolor'
@@ -94,6 +95,7 @@ if !exists('g:airline_symbols')
 endif
 let g:airline_left_sep = ' > '
 let g:airline_right_sep = ' < '
+
 
 filetype plugin indent on
 syntax enable
