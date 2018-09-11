@@ -122,12 +122,15 @@ endif
  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
  " Plugin key-mappings.
  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+ imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+ smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+ xmap <C-k>     <Plug>(neosnippet_expand_target)
 
  let g:neosnippet#snippets_directory='~/.vim/my_snippet'
                     
- if has('conceal')
-     set conceallevel=2 concealcursor=i
- endif
+if has('conceal')
+    set conceallevel=2 concealcursor=i
+endif
 
 autocmd FileType python setlocal omnifunc=jedi#completions
 
