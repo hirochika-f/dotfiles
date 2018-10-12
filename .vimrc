@@ -29,8 +29,6 @@ nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
 autocmd FileType python setlocal completeopt-=preview
 
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
-
 autocmd ColorScheme * highlight Normal ctermbg=None
 autocmd ColorScheme * highlight Comment ctermfg=110 guifg=#00FF00
 autocmd ColorScheme * highlight Identifier ctermfg=208 guifg=#00FF00
@@ -53,7 +51,7 @@ if &runtimepath !~# '/dein.vim'
     if !isdirectory(s:dein_repo_path)
         execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_path
     endif
-    execute 'set runtimepath^=' . fnamemodify(s:dein_repo_path, ':p')
+    execute 'set runtimepath^=' . s:dein_repo_path
 endif
 
 if dein#load_state(s:dein_path)
