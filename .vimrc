@@ -18,8 +18,10 @@ set statusline=2
 au! CursorHold
 filetype plugin on
 filetype on
-""colorscheme molokai
+
+"colorscheme molokai
 highlight Normal ctermbg=none
+autocmd ColorScheme * highlight CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
 
 imap <C-l> <Right>
 imap <C-k> <Up>
@@ -33,6 +35,7 @@ autocmd ColorScheme * highlight Normal ctermbg=None
 autocmd ColorScheme * highlight Comment ctermfg=110 guifg=#00FF00
 autocmd ColorScheme * highlight Identifier ctermfg=208 guifg=#00FF00
 autocmd ColorScheme * highlight String ctermfg=227 guifg=#00FF00
+autocmd ColorScheme * highlight Visual ctermfg=White ctermbg=LightBlue
 syntax on
 ""set g:molokai_original = 1
 colorscheme molokai
@@ -43,7 +46,7 @@ if &compatible
     set nocompatible               " Be iMproved
 endif
 
-let s:dein_path = expand('~/.vim/dein')
+let s:dein_path = expand('/Users/hirochika/.vim/dein')
 let s:dein_repo_path = s:dein_path . '/repos/github.com/Shougo/dein.vim'
 
 " dein.vim がなければ github からclone
@@ -57,7 +60,7 @@ endif
 if dein#load_state(s:dein_path)
     call dein#begin(s:dein_path)
 
-    let g:config_dir  = expand('~/.vim/userconfig')
+    let g:config_dir  = expand('/Users/hirochika/.vim/userconfig')
     let s:toml        = g:config_dir . '/plugins.toml'
     let s:lazy_toml   = g:config_dir . '/plugins_lazy.toml'
 
@@ -69,7 +72,7 @@ if dein#load_state(s:dein_path)
     call dein#save_state()
 endif
 
-call dein#begin(expand('~/.vim/dein'))
+call dein#begin(expand('/Users/hirochika/.vim/dein'))
 
 call dein#add('Shougo/dein.vim')
 call dein#add('Shougo/vimproc.vim', {'build': 'make'})
