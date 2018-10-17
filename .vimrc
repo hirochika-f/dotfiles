@@ -19,9 +19,7 @@ au! CursorHold
 filetype plugin on
 filetype on
 
-"colorscheme molokai
-highlight Normal ctermbg=none
-autocmd ColorScheme * highlight CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
+autocmd FileType python setlocal completeopt-=preview
 
 imap <C-l> <Right>
 imap <C-k> <Up>
@@ -29,15 +27,14 @@ imap <C-j> <Down>
 imap <C-h> <Left>
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
-autocmd FileType python setlocal completeopt-=preview
-
+highlight Normal ctermbg=none
 autocmd ColorScheme * highlight Normal ctermbg=None
 autocmd ColorScheme * highlight Comment ctermfg=110 guifg=#00FF00
 autocmd ColorScheme * highlight Identifier ctermfg=208 guifg=#00FF00
 autocmd ColorScheme * highlight String ctermfg=227 guifg=#00FF00
 autocmd ColorScheme * highlight Visual ctermfg=White ctermbg=LightBlue
+autocmd ColorScheme * highlight CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
 syntax on
-""set g:molokai_original = 1
 colorscheme molokai
 set t_Co=256
 
