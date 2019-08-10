@@ -15,17 +15,18 @@ set softtabstop=0
 set noswapfile
 set backspace=2
 set statusline=2
+
 au! CursorHold
-filetype plugin on
-filetype on
-
-autocmd FileType python setlocal completeopt-=preview
-
 imap <C-l> <Right>
 imap <C-k> <Up>
 imap <C-j> <Down>
 imap <C-h> <Left>
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
+
+filetype plugin on
+filetype on
+
+autocmd FileType python setlocal completeopt-=preview
 
 highlight Normal ctermbg=none
 autocmd ColorScheme * highlight Normal ctermbg=None
@@ -34,103 +35,9 @@ autocmd ColorScheme * highlight Identifier ctermfg=208 guifg=#00FF00
 autocmd ColorScheme * highlight String ctermfg=227 guifg=#00FF00
 autocmd ColorScheme * highlight Visual ctermfg=White ctermbg=LightBlue
 autocmd ColorScheme * highlight CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
-syntax on
 colorscheme molokai
 set t_Co=256
-
-"dein Scripts-----------------------------
-if &compatible
-    set nocompatible               " Be iMproved
-endif
-
-let s:dein_path = expand('/Users/hirochika/.vim/dein')
-let s:dein_repo_path = s:dein_path . '/repos/github.com/Shougo/dein.vim'
-
-" dein.vim がなければ github からclone
-if &runtimepath !~# '/dein.vim'
-    if !isdirectory(s:dein_repo_path)
-        execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_path
-    endif
-    execute 'set runtimepath^=' . s:dein_repo_path
-endif
-
-if dein#load_state(s:dein_path)
-    call dein#begin(s:dein_path)
-
-    let g:config_dir  = expand('/Users/hirochika/.vim/userconfig')
-    let s:toml        = g:config_dir . '/plugins.toml'
-    let s:lazy_toml   = g:config_dir . '/plugins_lazy.toml'
-
-    " TOML 読み込み
-    call dein#load_toml(s:toml,      {'lazy': 0})
-    call dein#load_toml(s:lazy_toml, {'lazy': 1})
-
-    call dein#end()
-    call dein#save_state()
-endif
-
-call dein#begin(expand('/Users/hirochika/.vim/dein'))
-
-call dein#add('Shougo/dein.vim')
-call dein#add('Shougo/vimproc.vim', {'build': 'make'})
-call dein#add('Shougo/neocomplete.vim')
-call dein#add('Shougo/neosnippet.vim')
-call dein#add('Shougo/neosnippet-snippets')
-call dein#add('Shougo/neomru.vim')
-call dein#add('scrooloose/nerdcommenter')
-call dein#add('tpope/vim-surround')
-call dein#add('simeji/winresizer')
-call dein#add('cohama/lexima.vim')
-call dein#add('vim-airline/vim-airline')
-call dein#add('vim-airline/vim-airline-themes')
-call dein#add('w0rp/ale')
-
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline_theme='papercolor'
-let g:airline_powerline_fonts = 1
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-let g:airline_left_sep = ' > '
-let g:airline_right_sep = ' < '
-
-
-filetype plugin indent on
-syntax enable
-
-" インストールされていないプラグインがあればインストールする
-" If you want to install not installed plugins on startup.
-if dein#check_install()
-    call dein#install()
-endif
-"End dein Scripts-------------------------
-
-"------------------------------------
-" neocomplete.vim
-"------------------------------------
-"Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-" Disable AutoComplPop.
- let g:acp_enableAtStartup = 0
- " Use neocomplete.
- let g:neocomplete#enable_at_startup = 1
- " Use smartcase.
- let g:neocomplete#enable_smart_case = 1
- " Set minimum syntax keyword length.
- let g:neocomplete#sources#syntax#min_keyword_length = 3
- let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
- " Plugin key-mappings.
- inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
- imap <C-k>     <Plug>(neosnippet_expand_or_jump)
- smap <C-k>     <Plug>(neosnippet_expand_or_jump)
- xmap <C-k>     <Plug>(neosnippet_expand_target)
-
- let g:neosnippet#snippets_directory='~/.vim/my_snippet'
-                    
-if has('conceal')
-    set conceallevel=2 concealcursor=i
-endif
-
-autocmd FileType python setlocal omnifunc=jedi#completions
+command! SyntaxInfo call s:get_syn_info()
 
 function! s:get_syn_id(transparent)
     let synid = synID(line("."), col("."), 1)
@@ -140,6 +47,7 @@ function! s:get_syn_id(transparent)
         return synid
     endif
 endfunction
+
 function! s:get_syn_attr(synid)
     let name = synIDattr(a:synid, "name")
     let ctermfg = synIDattr(a:synid, "fg", "cterm")
@@ -153,6 +61,7 @@ function! s:get_syn_attr(synid)
         \ "guifg": guifg,
         \ "guibg": guibg}
 endfunction
+
 function! s:get_syn_info()
     let baseSyn = s:get_syn_attr(s:get_syn_id(0))
     echo "name: " . baseSyn.name .
@@ -168,4 +77,36 @@ function! s:get_syn_info()
         \ " guifg: " . linkedSyn.guifg .
         \ " guibg: " . linkedSyn.guibg
 endfunction
-command! SyntaxInfo call s:get_syn_info()
+
+if &compatible
+  set nocompatible
+endif
+
+let s:dein_dir = expand('~/.vim/dein')
+
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+endif
+
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
+
+  let s:toml_dir = expand('~/.vim/rc')
+  call dein#load_toml(s:toml_dir . '/dein.toml', {'lazy': 0})
+  call dein#load_toml(s:toml_dir . '/dein_lazy.toml', {'lazy': 1})
+
+  call dein#end()
+  call dein#save_state()
+endif
+
+filetype plugin indent on
+syntax enable
+
+if dein#check_install()
+  call dein#install()
+endif
