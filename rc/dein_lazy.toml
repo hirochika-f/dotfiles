@@ -91,10 +91,6 @@ repo = 'Jagua/vim-denite-ghq'
 on_source = 'denite.nvim'
 
 [[plugins]]
-repo = 'w0rp/ale'
-on_ft = ['python']
-
-[[plugins]]
 repo = 'Shougo/deoplete.nvim'
 on_event = 'InsertEnter'
 on_ft = ['python']
@@ -114,5 +110,17 @@ hook_source = '''
 '''
 
 [[plugins]]
+repo = 'vim-python/python-syntax'
+on_ft = ['python']
+hook_source = '''
+    let g:python_highlight_class_vars = 1
+    let g:python_highlight_all = 1
+'''
+
+[[plugins]]
 repo = 'davidhalter/jedi-vim'
+on_ft = ['python']
+
+[[plugins]]
+repo = 'w0rp/ale'
 on_ft = ['python']
