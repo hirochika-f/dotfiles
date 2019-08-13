@@ -2,7 +2,7 @@
 $EDITOR = '/usr/local/bin/vim'
 $VISUAL = '/usr/local/bin/vim'
 # 補完をEnterで直接実行しない
-#$COMPLETIONS_CONFIRM = True
+$COMPLETIONS_CONFIRM = True
 # tabではなく空白4つ
 $INDENT = "    "
 # 補完時に大小区別しない
