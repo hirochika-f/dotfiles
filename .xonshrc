@@ -1,0 +1,79 @@
+# エディタ
+$EDITOR = '/usr/local/bin/vim'
+$VISUAL = '/usr/local/bin/vim'
+# 補完をEnterで直接実行しない
+#$COMPLETIONS_CONFIRM = True
+# tabではなく空白4つ
+$INDENT = "    "
+# 補完時に大小区別しない
+$CASE_SENSITIVE_COMPLETIONS = False
+# 連続重複コマンドを保存しない
+$HISTCONTROL = "ignoredups"
+# 括弧を補完
+$XONSH_AUTOPAIR = True
+# ディレクトリ名を入力でcd
+$AUTO_CD = True
+# エラー全て吐くように
+$XONSH_SHOW_TRACEBACK = True
+# サブプロセスタイムアウトのメッセージ抑制
+$SUPPRESS_BRANCH_TIMEOUT_MESSAGE = True
+# キー入力即評価（サイコー）
+$UPDATE_COMPLETIONS_ON_KEYPRESS = True
+$XONSH_COLOR_STYLE = 'native'
+
+aliases['l'] = 'ls'
+aliases['la'] = 'ls -lta'
+aliases['gs'] = 'git status'
+aliases['gd'] = 'git diff'
+aliases['ga'] = 'git add'
+aliases['gc'] = 'git commit -m'
+aliases['activate'] = 'pipenv shell'
+
+# 履歴をpecoに流す
+# https://qiita.com/riktor/items/4a90b4e125cd091a9d07
+# pecoのinstall : https://qiita.com/ngyuki/items/94a7e638655d9910971b
+import os
+import re
+import json
+from collections import OrderedDict
+from operator import itemgetter
+def get_history(session_history=None, return_list=False):
+    hist_dir = __xonsh__.env['XONSH_DATA_DIR']
+    files = [ os.path.join(hist_dir,f) for f in os.listdir(hist_dir)
+              if f.startswith('xonsh-') and f.endswith('.json') ]
+    file_hist = [ json.load(open(f))['data']['cmds'] for f in files ]
+    cmds = [ ( c['inp'].replace('\n', ''), c['ts'][0] )
+                 for cmds in file_hist for c in cmds if c]
+    cmds.sort(key=itemgetter(1))
+    cmds = [ c[0] for c in cmds[::-1] ]
+    if session_history:
+        cmds.extend(session_history)
+    # dedupe
+    zip_with_dummy = list(zip(cmds, [0] * len(cmds)))[::-1]
+    cmds = list(OrderedDict(zip_with_dummy).keys())[::-1]
+    if return_list:
+        return cmds
+    else:
+        return '\n'.join(cmds)
+
+# キーバインド
+from prompt_toolkit.keys import Keys
+from prompt_toolkit.filters import (Condition, IsMultiline, HasSelection, EmacsInsertMode, ViInsertMode)
+@events.on_ptk_create
+def custom_keybindings(bindings, **kw):
+    #handler = bindings.registry.add_binding
+
+    # ptk 2.xでは @bindings.add('c-v') とする
+    # コマンド入力中にctrl+vでvim編集
+    @bindings.add('c-v')
+    def edit_in_editor(event):
+        event.current_buffer.tempfile_suffix = '.py'
+        event.current_buffer.open_in_editor(event.cli)
+
+    # ctrl+rで履歴をpecoに流して検索
+    @bindings.add('c-r')
+    def select_history(event):
+        sess_history = $(history).split('\n')
+        hist = get_history(sess_history)
+        selected = $(echo @(hist) | peco)
+        event.current_buffer.insert_text(selected.strip())
