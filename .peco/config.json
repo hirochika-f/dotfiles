@@ -1,0 +1,15 @@
+{
+    "keymap": {
+        "Tab": "peco.SelectDown",
+        "M-[,Z]": "peco.SelectUp",
+        "C-l":  "peco.DeleteAll"
+    },
+    "Style": {
+        "Basic": ["on_default", "white"],
+        "SavedSelection": ["on_blue", "black"],
+        "Selected": ["on_cyan", "black"],
+        "Query": ["on_default", "white"],
+        "Matched": ["yellow", "bold"]
+    },
+    "StickySelection": true
+}
