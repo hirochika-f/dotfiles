@@ -35,6 +35,7 @@ autocmd ColorScheme * highlight Identifier ctermfg=208 guifg=#00FF00
 autocmd ColorScheme * highlight String ctermfg=227 guifg=#00FF00
 autocmd ColorScheme * highlight Visual ctermfg=White ctermbg=LightBlue
 autocmd ColorScheme * highlight CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
+syntax on
 colorscheme molokai
 set t_Co=256
 command! SyntaxInfo call s:get_syn_info()
