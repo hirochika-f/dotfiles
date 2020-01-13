@@ -124,3 +124,7 @@ on_ft = ['python']
 [[plugins]]
 repo = 'w0rp/ale'
 on_ft = ['python']
+
+[[plugins]]
+repo = 'JuliaLang/julia-vim'
+on_ft = ['julia']
