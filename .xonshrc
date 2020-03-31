@@ -21,13 +21,20 @@ $SUPPRESS_BRANCH_TIMEOUT_MESSAGE = True
 $UPDATE_COMPLETIONS_ON_KEYPRESS = True
 $XONSH_COLOR_STYLE = 'native'
 
-aliases['l'] = 'ls'
-aliases['la'] = 'ls -lta'
+$PIPENV_VENV_IN_PROJECT = True
+
+aliases['l'] = 'exa'
+aliases['la'] = 'exa -hlS --git'
 aliases['gs'] = 'git status'
 aliases['gd'] = 'git diff'
 aliases['ga'] = 'git add'
 aliases['gc'] = 'git commit -m'
 aliases['activate'] = 'pipenv shell'
+aliases['dps'] = 'docker ps -a'
+aliases['dimgs'] = 'docker images'
+aliases['ssh-1080ti'] = 'ssh fujiki@10.60.100.238'
+aliases['ssh-titanrtx'] = 'ssh fujiki@10.60.66.151'
+aliases['ssh-gpucluster'] = 'ssh hfujiki@10.216.22.149'
 
 # 履歴をpecoに流す
 # https://qiita.com/riktor/items/4a90b4e125cd091a9d07
@@ -41,7 +48,12 @@ def get_history(session_history=None, return_list=False):
     hist_dir = __xonsh__.env['XONSH_DATA_DIR']
     files = [ os.path.join(hist_dir,f) for f in os.listdir(hist_dir)
               if f.startswith('xonsh-') and f.endswith('.json') ]
-    file_hist = [ json.load(open(f))['data']['cmds'] for f in files ]
+    file_hist = []
+    for f in files:
+        try:
+            file_hist.append(json.load(open(f))['data']['cmds'])
+        except:
+            pass
     cmds = [ ( c['inp'].replace('\n', ''), c['ts'][0] )
                  for cmds in file_hist for c in cmds if c]
     cmds.sort(key=itemgetter(1))
@@ -77,3 +89,29 @@ def custom_keybindings(bindings, **kw):
         hist = get_history(sess_history)
         selected = $(echo @(hist) | peco)
         event.current_buffer.insert_text(selected.strip())
+
+# imgls
+import matplotlib.pyplot as plt
+import xontrib.mplhooks
+import numpy as np
+import cv2
+import random
+from mimetypes import guess_extension
+
+def _imgls(args):
+    fig, ax = plt.subplots(3, 3, sharex='col', sharey='row')
+    fig.set_size_inches(10, 10)
+    d=[]
+    for x in os.listdir(args[0]):
+        if x.split('.')[-1] in ('jpe', 'jpeg', 'png'):
+            d.append(path+x)
+    if len(d)>9:
+        d = random.sample(d, 9)
+    for i, imgid in enumerate(d):
+        col = i % 3
+        row = i // 3
+        img = cv2.imread(imgid)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        ax[row, col].imshow(img)
+    xontrib.mplhooks.display_figure_with_iterm2(fig)
+aliases['imgls'] = _imgls
