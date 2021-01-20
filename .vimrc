@@ -31,8 +31,12 @@ autocmd FileType python setlocal completeopt-=preview
 highlight Normal ctermbg=none
 autocmd ColorScheme * highlight Normal ctermbg=None
 autocmd ColorScheme * highlight Comment ctermfg=110 guifg=#00FF00
-autocmd ColorScheme * highlight Identifier ctermfg=208 guifg=#00FF00
+autocmd ColorScheme * highlight Identifier ctermfg=56 guifg=#00FF00
+autocmd ColorScheme * highlight PreProc ctermfg=196 guifg=#00FF00
+autocmd ColorScheme * highlight Statement ctermfg=196 guifg=#00FF00
 autocmd ColorScheme * highlight String ctermfg=227 guifg=#00FF00
+autocmd ColorScheme * highlight Repeat ctermfg=202 guifg=#00FF00
+autocmd ColorScheme * highlight Conditional ctermfg=202 guifg=#00FF00
 autocmd ColorScheme * highlight Visual ctermfg=White ctermbg=LightBlue
 autocmd ColorScheme * highlight CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
 syntax on
@@ -111,3 +115,5 @@ syntax enable
 if dein#check_install()
   call dein#install()
 endif
+
+call map(dein#check_clean(), "delete(v:val, 'rf')")
